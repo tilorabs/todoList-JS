@@ -13,8 +13,7 @@ html {
 }
 
 body {
-    background-image: url(../img/quadpaper.jpg);
-    margin: 1em;
+    background-image: url(../img/quadpaper.jpg); margin: 1em;
 }
 
 #content {
@@ -24,8 +23,11 @@ body {
 }
 
 header {
-    margin-bottom: 1em;
-    text-align: center;
+    margin-bottom: 1em; text-align: center;
+}
+
+header h2 {
+    background-image: url(../img/underline.svg); background-repeat: no-repeat; background-position: center bottom; padding-bottom: 16px;
 }
 
 header h3 {
@@ -33,8 +35,7 @@ header h3 {
 }
 
 nav {
-    padding: 0 1em; 
-    margin-bottom: 1em;
+    padding: 0 1em; margin-bottom: 1em;
 }
 
 nav form {
@@ -50,7 +51,11 @@ nav form div:nth-child(1) label {
 }
 
 nav form div:nth-child(2) span {
-    margin: 0 0.5rem;
+    padding: 0 0.5rem;
+}
+
+nav form div:nth-child(2) span.fa {
+    border: 1px solid #666; border-radius: 0.2rem; box-shadow: 2px 2px 1px #666; cursor: pointer;
 }
 
 nav form:nth-child(1) div p {
@@ -100,7 +105,7 @@ main section.dateelement ul {
 }
 
 main section.dateelement ul li {
-    background-color: transparent; margin: 0.5rem 0; border-radius: 0.3rem; padding: 0.2rem;
+    margin: 0.5rem 0; border-radius: 0.3rem; padding: 0.2rem;
 }
 
 main section.dateelement ul li div {
@@ -114,7 +119,7 @@ main section.dateelement ul li div {
 
 main section.dateelement ul li div textarea {
     flex: 15; background: transparent; padding: 0 0.3rem; border: none; cursor:pointer; font-family: 'Caveat', cursive; font-weight: 500; font-size: 1rem; 
-    resize: none; min-height: 3em; overflow: auto;
+    height:auto; overflow-y:hidden; resize: none;
 }
 
 main section.dateelement ul li div span {
@@ -130,11 +135,12 @@ main section.dateelement ul li div span.done:first-child{
 }
 
 #trashConfirm {
-    width: 400px; height: 150px; z-index: 10; position: absolute; border-radius: 0.3rem; padding: 1rem; background-color: #555; color: #fff; text-align: center;
+    width: 400px; height: 150px; z-index: 10; position: absolute; border: 2px outset #030; border-radius: 0.3rem; padding: 1rem; 
+    background-color: #555; color: #fff; text-align: center; opacity: 0.9;
 }
 
 #trashConfirm button {
-    margin: 0.5rem; padding: 0.2rem 0.5rem;
+    margin: 0.5rem; padding: 0.2rem 0.5rem; font-family: 'Caveat', cursive; font-size: 14pt; font-weight: 700;
 }
 
 .linethrough {text-decoration: line-through;}
@@ -145,9 +151,6 @@ main section.dateelement ul li div span.done:first-child{
     nav form {flex-flow: column wrap; justify-content: center;}
     nav form div {padding: 1rem 0.1rem;}
     main {flex-flow: column nowrap;}
-    main section.dateelement {
-        width: 100%;
-        margin: 0.5rem 0;
-    }
+    main section.dateelement {width: 100%; margin: 0.5rem 0;}
     #trashConfirm {width: 300px;}
 }
