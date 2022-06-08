@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/layout.css">
+    <title>ToDo List</title>
+</head>
+<body>
+    <div id="content">
+        <header>
+            <!-- todo: Ringhefter Backround, freie SVG Linie -->
+            <h2>To-Do List</h2>
+            <h3>(Nico & Tilo)</h3>
+        </header>
+        <nav>
+            <form>
+                <div>
+                    <label for="dtFrom">Select date</label>
+                    <input type="date" name="dtDate" id="dtDate"/>
+                </div>                
+                <div>
+                    <p>Week 7 / 52</p>
+                    <span class="fa fa-angle-left"></span>
+                    <span>Previous</span>
+                    <span>Next</span>
+                    <span class="fa fa-angle-right"></span>
+                </div>
+               
+            </form>
+        </nav>
+        <main>
+            <section class="dateelement">
+                <form>
+                    <h4>Saturday 21.05.2022</h4> 
+                    <input type="text" class="addNewEntry" name="txtNewEntry" placeholder="! enter confirms bullet point !"/>
+                    <ul>
+                        <li>
+                            <div>
+                                <span class="fa fa-square-o"></span>
+                                <textarea>Highlighting this bullet point</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <span class="fa fa-square-o"></span>
+                                <textarea>Click line to edit</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <span class="fa fa-check-square-o done"></span>
+                                <textarea class="linethrough" readonly>This task is finished</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                    </ul>  
+                </form>
+            </section>
+            <section class="dateelement">
+                <form>
+                    <h4>Sunday 22.05.2022</h4> 
+                    <input type="text" class="addNewEntry" name="txtNewEntry" placeholder="! enter confirms bullet point !"/>
+                    <ul>
+                        <li>
+                            <div>
+                                <span class="fa fa-square-o"></span>
+                                <textarea>Highlighting this bullet point</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <span class="fa fa-square-o"></span>
+                                <textarea>Click line to edit</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <span class="fa fa-check-square-o done"></span>
+                                <textarea class="linethrough" readonly>This task is finished</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                    </ul>  
+                </form>
+            </section>
+            <section class="dateelement">
+                <form>
+                    <h4>Monday 23.05.2022</h4> 
+                    <input type="text" class="addNewEntry" name="txtNewEntry" placeholder="! enter confirms bullet point !"/>
+                    <ul>
+                        <li>
+                            <div>
+                                <span class="fa fa-square-o"></span>
+                                <textarea>Highlighting this bullet point Highlighting this bullet point</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <span class="fa fa-square-o"></span>
+                                <textarea>Click line to edit</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <span class="fa fa-check-square-o done"></span>
+                                <textarea class="linethrough" readonly>This task is finished</textarea>
+                                <span class="fa fa-star-o"></span>
+                                <span class="fa fa-trash-o"></span>
+                            </div>
+                        </li>
+                    </ul>  
+                </form>
+            </section>
+        </main>
+    </div>
+    <dialog id="trashConfirm">
+        <h5>Are you sure to delete this task?</h5>
+        <button id="removeYes">Yes</button>
+        <button id="closeDialog">No</button>
+    </dialog>
+    <script type="text/javascript" src="js/basics.js" defer></script>
+</body>
+</html>

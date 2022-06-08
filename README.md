@@ -1,1 +1,2 @@
-# todolist javascript project
+# A todoList to manage tasks
+# Nico and Tilo collaboration
