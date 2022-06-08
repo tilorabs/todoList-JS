@@ -5,6 +5,7 @@ html {
     font-weight: 700;
     line-height: 1.8rem; 
     color: #111;
+    background-image: url(../img/quadpaper.jpg);
 }
 
 * {
@@ -13,7 +14,7 @@ html {
 }
 
 body {
-    background-image: url(../img/quadpaper.jpg); margin: 1em;
+    background-image: url(../img/spiral.png); background-repeat: repeat-x; background-size: 2% auto; margin:0.5rem;
 }
 
 #content {
@@ -23,7 +24,7 @@ body {
 }
 
 header {
-    margin-bottom: 1em; text-align: center;
+    margin-bottom: 0.5em; padding-top: 2rem; text-align: center;
 }
 
 header h2 {
@@ -35,7 +36,7 @@ header h3 {
 }
 
 nav {
-    padding: 0 1em; margin-bottom: 1em;
+    padding: 0 1em; margin-bottom: 0.5em;
 }
 
 nav form {
@@ -70,14 +71,14 @@ main {
     display: flex; 
     flex-flow: row wrap; 
     justify-content: flex-start; 
-    padding: 1em; 
+    padding: 1em;
 }
 
 main section.dateelement {
     flex: 1 1 30%;
     box-sizing: border-box;
     border: 1px solid #666;
-    margin: 0.5rem; 
+    margin: 0.3rem; 
     padding: 1rem; 
     border-radius: 0.3rem; 
     box-shadow: 2px 2px 1px #666;
@@ -147,7 +148,8 @@ main section.dateelement ul li div span.done:first-child{
 
 @media screen and (max-width: 900px) {
     html {font-size: 14pt;}
-    body {margin:0.5rem;}
+    body {background-size: 5% auto; }
+    header {padding-top: 3rem;}
     nav form {flex-flow: column wrap; justify-content: center;}
     nav form div {padding: 1rem 0.1rem;}
     main {flex-flow: column nowrap;}
