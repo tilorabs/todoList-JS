@@ -242,6 +242,19 @@ function renderCalenderWeekDays(weekdays) {
 
     weekdays.forEach((weekday) => {
         //here load data for a day from localstorage
+        /*
+            //save
+            var testObject = { 'one': 1, 'two': 2, 'three': 3 };
+            localStorage.setItem('testObject', JSON.stringify(testObject));
+            //load
+            var retrievedObject = localStorage.getItem('testObject');
+            console.log('retrievedObject: ', JSON.parse(retrievedObject));
+            //loop
+            let keys = Object.keys(localStorage);
+            keys.forEach(function(key){
+                console.log(key + " : " + localStorage.getItem(key));
+            });
+        */
         addSection(weekday);
     })
 }
