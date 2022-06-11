@@ -32,22 +32,27 @@ const setDate = (() => {
 const initDateEvents = (() => {
     const prevWeek = document.querySelector(".fa-angle-left");
     prevWeek.addEventListener("click", () => {
+        saveTasks();
         thursdayDate.setDate(thursdayDate.getDate() - 7);
         initCalendar(thursdayDate);
+        loadTasks();
         setDate();
         setWeek();
     });
 
     const nextWeek = document.querySelector(".fa-angle-right");
     nextWeek.addEventListener("click", () => {
+        saveTasks();
         thursdayDate.setDate(thursdayDate.getDate() + 7);
         initCalendar(thursdayDate);
+        loadTasks();
         setDate();
         setWeek();
     });
 
     const currDate = document.getElementById("dtDate");
     currDate.addEventListener("change", () => {
+        saveTasks();
         const input = currDate.value;
         if(input === "") {
             thursdayDate = new Date();
@@ -56,6 +61,7 @@ const initDateEvents = (() => {
             thursdayDate = new Date(year, month - 1 , day);
         }
         initCalendar(thursdayDate);
+        loadTasks();
         setWeek();
     });
 });
@@ -251,7 +257,7 @@ function renderCalenderWeekDays(weekdays) {
 const addSection = ((date) => {
     //for adding events: <span class="fa fa-trash-o" onclick="trashEvent()"> or nodes
     let section = `
-    <section class="dateelement">
+    <section class="dateelement" id="${date.toLocaleDateString()}">
         <form>
             <h4>${date.toLocaleDateString('en-US', {weekday: 'long'})} ${date.toLocaleDateString()}</h4> 
             <input type="text" class="addNewEntry" name="txtNewEntry" placeholder="! Enter confirms bullet point !"/>
@@ -301,14 +307,25 @@ const addSection = ((date) => {
 */
 function saveTasks() {
     const weekDays = getCalenderWeekDays() // gets whole week
+    let checked
     weekDays.forEach((weekDay) => {
         const key = weekDay.toLocaleDateString() // gets only String of the date
         //console.log(key)
-        const value = ["a", "b", "c", "d", "e", "f", "g"];
+        const section = document.getElementById(key)
+        const textAreaContents = section.querySelectorAll(".datecontent")
+        textAreaContents.forEach((textAreaContent) => {
+            //console.log(textAreaContent.parentNode.firstElementChild)
+            if(textAreaContent.parentNode.firstElementChild.classList.contains("fa-check-square-o")) {
+                checked = false
+            } else {
+                checked = true
+            }
+            console.log(checked)
+        });
+        const value = ["{x,y,z}", "b", "c"];
         const stringValue = JSON.stringify(value)
         localStorage.setItem(key, stringValue)
     });
-    loadTasks()
 };
 
 function loadTasks() {
