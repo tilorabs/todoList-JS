@@ -1,9 +1,9 @@
-let thursdayDate;
+let thursdayDate; //still undefined
 let week;
 
 window.onload = function() {
     thursdayDate = new Date();
-    initDateEvents();
+    initDateEvents(); //adds events to button previous/next week and datepicker
     initCalendar(thursdayDate);
     setWeek();
     setDate();
@@ -217,20 +217,22 @@ function calendarWeek(date) {
 }
 
 function getCalenderWeekDays() {
-    let dateArray = new Array();
-    let monday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() - 3);
+    let monday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() - 3); //new Date(2022, 6, 11);
     let tuesday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() - 2);
     let wednesday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() - 1);
     let friday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() + 1);
     let saturday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() + 2);
     let sunday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() + 3);
+    const dateArray = [monday, tuesday, wednesday, thursdayDate, friday, saturday, sunday];
+
+    /* let dateArray = new Array();  //alternative: let dateArray = [];
     dateArray.push(monday);
     dateArray.push(tuesday);
     dateArray.push(wednesday);
     dateArray.push(thursdayDate);
     dateArray.push(friday);
     dateArray.push(saturday);
-    dateArray.push(sunday);
+    dateArray.push(sunday); */
     return dateArray;
 }
 
@@ -241,26 +243,14 @@ function renderCalenderWeekDays(weekdays) {
     })
 
     weekdays.forEach((weekday) => {
-        //here load data for a day from localstorage
-        /*
-            //save
-            var testObject = { 'one': 1, 'two': 2, 'three': 3 };
-            localStorage.setItem('testObject', JSON.stringify(testObject));
-            //load
-            var retrievedObject = localStorage.getItem('testObject');
-            console.log('retrievedObject: ', JSON.parse(retrievedObject));
-            //loop
-            let keys = Object.keys(localStorage);
-            keys.forEach(function(key){
-                console.log(key + " : " + localStorage.getItem(key));
-            });
-        */
         addSection(weekday);
     })
 }
 
 const addSection = ((date) => {
-    let section = `<section class="dateelement">
+    //for adding events: <span class="fa fa-trash-o" onclick="trashEvent()"> or nodes
+    let section = `
+    <section class="dateelement">
         <form>
             <h4>${date.toLocaleDateString('en-US', {weekday: 'long'})} ${date.toLocaleDateString()}</h4> 
             <input type="text" class="addNewEntry" name="txtNewEntry" placeholder="! Enter confirms bullet point !"/>
