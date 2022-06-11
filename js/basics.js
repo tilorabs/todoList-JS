@@ -16,6 +16,7 @@ const initCalendar = ((date) => {
     const weekdays = getCalenderWeekDays();
     renderCalenderWeekDays(weekdays);
     initDOMEvents();
+    saveTasks();
 });
 
 const setWeek = (() => {
@@ -285,16 +286,37 @@ const addSection = ((date) => {
     document.getElementById("main").innerHTML += section;
 });
 
+
+// local Storage
+/*
+    key => {
+            task1 = inhalt=text, highlighted=true, done=true
+            task2 = inhalt=text, highlighted=false, done=true
+    }
+    22.06.22 => {
+            task1 = inhalt=text, highlighted=true, done=true
+            task2 = inhalt=text, highlighted=false, done=true
+            task3 = inhalt=text, highlighted=false, done=true
+    }
+*/
 function saveTasks() {
-    /*
-        21.06.22 => {
-                task1 = inhalt=text, highlighted=true, done=true
-                task2 = inhalt=text, highlighted=false, done=true
-        }
-        22.06.22 => {
-                task1 = inhalt=text, highlighted=true, done=true
-                task2 = inhalt=text, highlighted=false, done=true
-                task3 = inhalt=text, highlighted=false, done=true
-        }
-    */
+    const weekDays = getCalenderWeekDays() // gets whole week
+    weekDays.forEach((weekDay) => {
+        const key = weekDay.toLocaleDateString() // gets only String of the date
+        //console.log(key)
+        const value = ["a", "b", "c", "d", "e", "f", "g"];
+        const stringValue = JSON.stringify(value)
+        localStorage.setItem(key, stringValue)
+    });
+    loadTasks()
+};
+
+function loadTasks() {
+    const weekDays = getCalenderWeekDays() // gets whole week
+    weekDays.forEach((weekDay) => {
+        const key = weekDay.toLocaleDateString()
+        const stringValue = localStorage.getItem(key)
+        const value = JSON.parse(stringValue)
+        console.log(value)
+    });
 }
