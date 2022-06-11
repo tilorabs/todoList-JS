@@ -156,13 +156,13 @@ const trashEvent = ((trash) => {
         //removeEventListener after addEventListener does not work with anonymous function, only named function (= callback function)
         //https://www.mediaevent.de/javascript/add-event-listener-arguments.html
         //once: guaranteed addEventListener only once
-        function deleteElement() {
+        function deleteElement() { //for yes button
             trash.parentNode.parentNode.remove();
             mod.style.display = "none";
             btnYes.removeEventListener("click", deleteElement);
             btnNo.removeEventListener("click", closeDialog);
         }
-        function closeDialog() {
+        function closeDialog() { //for no button
             mod.style.display = "none";
             btnYes.removeEventListener("click", deleteElement);
             btnNo.removeEventListener("click", closeDialog);
@@ -284,3 +284,17 @@ const addSection = ((date) => {
     </section>`;
     document.getElementById("main").innerHTML += section;
 });
+
+function saveTasks() {
+    /*
+        21.06.22 => {
+                task1 = inhalt=text, highlighted=true, done=true
+                task2 = inhalt=text, highlighted=false, done=true
+        }
+        22.06.22 => {
+                task1 = inhalt=text, highlighted=true, done=true
+                task2 = inhalt=text, highlighted=false, done=true
+                task3 = inhalt=text, highlighted=false, done=true
+        }
+    */
+}
