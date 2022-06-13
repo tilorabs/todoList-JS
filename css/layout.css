@@ -135,6 +135,8 @@ main section.dateelement ul li div span.done:first-child{
     color:darkgreen;
 }
 
+#content div#warning {display: none; background: rgba(159, 226, 142, 0.8); border-radius: 0.3rem; padding: 0 0.3rem;}
+
 #trashConfirm {
     width: 400px; height: 150px; z-index: 10; position: absolute; border: 2px outset #030; border-radius: 0.3rem; padding: 1rem; 
     background-color: #555; color: #fff; text-align: center; opacity: 0.9;

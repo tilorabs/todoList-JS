@@ -7,6 +7,7 @@ window.onload = function() {
     initCalendar(thursdayDate);
     setWeek();
     setDate();
+    loadTasks();
 }
 
 const initCalendar = ((date) => {
@@ -16,7 +17,6 @@ const initCalendar = ((date) => {
     const weekdays = getCalenderWeekDays();
     renderCalenderWeekDays(weekdays);
     initDOMEvents();
-    saveTasks();
 });
 
 const setWeek = (() => {
@@ -198,6 +198,7 @@ const inputNodelist = ((newInput) => {
     trashEvent(trashNode);
     let textNode = document.createTextNode(newInput);
     let textareaNode = document.createElement("textarea");
+    textareaNode.classList.add("datecontent");
     textAreaEvent(textareaNode);
     textareaNode.appendChild(textNode);
     divNode.appendChild(squareNode);
@@ -261,39 +262,14 @@ const addSection = ((date) => {
         <form>
             <h4>${date.toLocaleDateString('en-US', {weekday: 'long'})} ${date.toLocaleDateString()}</h4> 
             <input type="text" class="addNewEntry" name="txtNewEntry" placeholder="! Enter confirms bullet point !"/>
-            <ul>
-                <li>
-                    <div>
-                        <span class="fa fa-square-o"></span>
-                        <textarea class="datecontent">Highlighting this bullet point</textarea>
-                        <span class="fa fa-star-o"></span>
-                        <span class="fa fa-trash-o"></span>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <span class="fa fa-square-o"></span>
-                        <textarea class="datecontent">Click line to edit</textarea>
-                        <span class="fa fa-star-o"></span>
-                        <span class="fa fa-trash-o"></span>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <span class="fa fa-square-o"></span>
-                        <textarea class="datecontent">This task is finished</textarea>
-                        <span class="fa fa-star-o"></span>
-                        <span class="fa fa-trash-o"></span>
-                    </div>
-                </li>
-            </ul>  
+            <ul></ul>  
         </form>
     </section>`;
     document.getElementById("main").innerHTML += section;
 });
 
 
-// local Storage
+// local Storage data structure
 /*
     key => {
             task1 = inhalt=text, highlighted=true, done=true
@@ -306,34 +282,72 @@ const addSection = ((date) => {
     }
 */
 function saveTasks() {
-    const weekDays = getCalenderWeekDays() // gets whole week
-    let checked
+    const weekDays = getCalenderWeekDays(); // gets whole week
+    let done;
+    let highlighted;
+    let content = '';
+    let saveValues;
     weekDays.forEach((weekDay) => {
-        const key = weekDay.toLocaleDateString() // gets only String of the date
-        //console.log(key)
-        const section = document.getElementById(key)
-        const textAreaContents = section.querySelectorAll(".datecontent")
+        saveValues = [];
+        const key = weekDay.toLocaleDateString(); // gets only string of the date
+        const section = document.getElementById(key);
+        const textAreaContents = section.querySelectorAll(".datecontent");
         textAreaContents.forEach((textAreaContent) => {
-            //console.log(textAreaContent.parentNode.firstElementChild)
-            if(textAreaContent.parentNode.firstElementChild.classList.contains("fa-check-square-o")) {
-                checked = false
-            } else {
-                checked = true
+            done = false;
+            highlighted = false;
+            let divnode = textAreaContent.parentNode;
+            if(divnode.querySelector(".fa-square-o, .fa-check-square-o").classList.contains("done")) { 
+                done = true;
             }
-            console.log(checked)
+            if(divnode.querySelector(".fa-star-o, .fa-star").classList.contains("fa-star")) {
+                highlighted = true;
+            }
+            content = divnode.querySelector("textarea").value;
+            saveValues.push([content, done, highlighted]);
         });
-        const value = ["{x,y,z}", "b", "c"];
-        const stringValue = JSON.stringify(value)
-        localStorage.setItem(key, stringValue)
+        const stringValues = JSON.stringify(saveValues);
+        localStorage.setItem(key, stringValues);
     });
 };
 
 function loadTasks() {
-    const weekDays = getCalenderWeekDays() // gets whole week
+    const warning = document.getElementById("warning");
+    warning.innerText = "~" + JSON.stringify(localStorage).length + " Bytes used local storage memory"; //utf-16 format
+    warning.style.display = "block";
+    const weekDays = getCalenderWeekDays(); // gets whole week
     weekDays.forEach((weekDay) => {
-        const key = weekDay.toLocaleDateString()
-        const stringValue = localStorage.getItem(key)
-        const value = JSON.parse(stringValue)
-        console.log(value)
+        const key = weekDay.toLocaleDateString();
+        const section = document.getElementById(key);
+        const stringValues = localStorage.getItem(key);
+        const values = JSON.parse(stringValues);
+        if(values === null)
+            return;
+        const ulnode = section.querySelector("ul");
+        for(let i = 0; i < values.length;i++) {
+            if(stringValues !== null) {
+                let linode = inputNodelist(values[i][0]);
+                ulnode.appendChild(linode);
+                let divnode = linode.querySelector("div");
+                if(values[i][1] === true) {
+                    let done = divnode.children[0];
+                    done.classList.remove(...done.classList);
+                    done.classList.add("fa");
+                    done.classList.add("fa-check-square-o");
+                    done.classList.add("done");
+                    done.nextElementSibling.readOnly = true;
+                    done.nextElementSibling.classList.add("linethrough");
+                }
+                if(values[i][2] === true) {
+                    let highlight = divnode.children[2];
+                    highlight.classList.remove(...highlight.classList);
+                    highlight.classList.add("fa");
+                    highlight.classList.add("fa-star");
+                    highlight.parentNode.parentNode.style.backgroundImage = "url('img/strike.svg')"; 
+                    highlight.parentNode.parentNode.style.backgroundRepeat = "no-repeat"; 
+                    highlight.parentNode.parentNode.style.backgroundPosition = "0% 10%"; 
+                    highlight.parentNode.parentNode.style.backgroundSize = "contain"; 
+                }
+            }
+        }
     });
 }
