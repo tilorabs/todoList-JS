@@ -1,3 +1,59 @@
+/* caveat-regular - latin: https://google-webfonts-helper.herokuapp.com/fonts/caveat?subsets=latin */
+@font-face {
+    font-family: 'Caveat';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/caveat-v15-latin-regular.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('../fonts/caveat-v15-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/caveat-v15-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/caveat-v15-latin-regular.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/caveat-v15-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/caveat-v15-latin-regular.svg#Caveat') format('svg'); /* Legacy iOS */
+}
+  
+/* caveat-600 - latin */
+@font-face {
+    font-family: 'Caveat';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/caveat-v15-latin-600.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('../fonts/caveat-v15-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/caveat-v15-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/caveat-v15-latin-600.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/caveat-v15-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/caveat-v15-latin-600.svg#Caveat') format('svg'); /* Legacy iOS */
+}
+
+/* caveat-500 - latin */
+@font-face {
+    font-family: 'Caveat';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/caveat-v15-latin-500.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('../fonts/caveat-v15-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/caveat-v15-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/caveat-v15-latin-500.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/caveat-v15-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/caveat-v15-latin-500.svg#Caveat') format('svg'); /* Legacy iOS */
+}
+
+/* caveat-700 - latin */
+@font-face {
+    font-family: 'Caveat';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/caveat-v15-latin-700.eot'); /* IE9 Compat Modes */
+    src: local(''),
+         url('../fonts/caveat-v15-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('../fonts/caveat-v15-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+         url('../fonts/caveat-v15-latin-700.woff') format('woff'), /* Modern Browsers */
+         url('../fonts/caveat-v15-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+         url('../fonts/caveat-v15-latin-700.svg#Caveat') format('svg'); /* Legacy iOS */
+}
+
 html {
     /* font-family: Georgia, 'Times New Roman', Times, serif;  */
     font-family: 'Caveat', cursive;
@@ -84,8 +140,28 @@ main section.dateelement {
     box-shadow: 2px 2px 1px #666;
 }
 
-main section.dateelement h4 {
-    font-family: 'Caveat', cursive; font-weight: 700; font-size: 1.2rem;
+main section.dateelement h4 {font-family: 'Caveat', cursive; font-weight: 700; font-size: 1.2rem; display: inline-block;}
+
+main section.dateelement div.ani {float: right; width:20%; display: flex; flex-flow: row wrap; justify-content: space-around;}
+
+.ball {display: inline-block; width: 10px; height: 10px; margin: 0px 0.1rem; border-radius: 5px;}
+
+.ball:nth-child(1) {animation: right 1s infinite ease-in-out;}
+.ball:nth-child(2) {animation: left 1.005s infinite ease-in-out;}
+.ball:nth-child(3) {animation: right 1.01s infinite ease-in-out;}
+.ball:nth-child(4) {animation: left 1.005s infinite ease-in-out;}
+.ball:nth-child(5) {animation: right 1s infinite ease-in-out;}
+
+@keyframes right {
+	0% {transform: translateY(-5px);background: #666;opacity: 0.5;}
+	50% {transform: translateY(5px);background: #030;opacity: 1;}
+	100% {transform: translateY(-5px);background: #666;opacity: 0.5;}
+}
+
+@keyframes left {
+    0% {transform: translateY(5px);background: #030;opacity: 1;}
+	50% {transform: translateY(-5px);background: #666;opacity: 0.5;}
+	100% {transform: translateY(5px);background: #030;opacity: 1;}
 }
 
 main section.dateelement form input {
@@ -156,5 +232,6 @@ main section.dateelement ul li div span.done:first-child{
     nav form div {padding: 1rem 0.1rem;}
     main {flex-flow: column nowrap;}
     main section.dateelement {width: 100%; margin: 0.5rem 0;}
+    .ball {width: 8px; height: 8px; margin: 0px 0.05rem; border-radius: 4px;}
     #trashConfirm {width: 300px;}
 }

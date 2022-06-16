@@ -4,10 +4,10 @@ let week;
 window.onload = function() {
     thursdayDate = new Date();
     initDateEvents(); //adds events to button previous/next week and datepicker
-    initCalendar(thursdayDate);
-    setWeek();
-    setDate();
-    loadTasks();
+    initCalendar(thursdayDate); //calculate and render weekdays
+    setWeek(); //set week output
+    setDate(); //set datetime picker output
+    loadTasks(); //loads localstorage data, builds list items and add events (inputNodelist() for each list item and initDOMEvents() for new entry)
 }
 
 const initCalendar = ((date) => {
@@ -16,7 +16,6 @@ const initCalendar = ((date) => {
     //set date value here will be an endless loop: onchange -> initCalender -> onchange ....
     const weekdays = getCalenderWeekDays();
     renderCalenderWeekDays(weekdays);
-    initDOMEvents();
 });
 
 const setWeek = (() => {
@@ -70,6 +69,10 @@ const initDOMEvents = (() => {
     const txtAreas = document.querySelectorAll(".datecontent");
     txtAreas.forEach((txtArea) => {
         txtArea.style.height = (txtArea.scrollHeight) + "px"; //if page loads
+    })
+
+    /* was for testing, now added individually with function inputNodelist
+    txtAreas.forEach((txtArea) => {
         textAreaEvent(txtArea);
     })
 
@@ -87,6 +90,7 @@ const initDOMEvents = (() => {
     trashbin.forEach((trash) => {
         trashEvent(trash);
     });
+    */
 
     const inputs = document.querySelectorAll(".addNewEntry");
     inputs.forEach((input) => {
@@ -95,14 +99,47 @@ const initDOMEvents = (() => {
                 event.preventDefault();
                 let newInput = input.value;
                 input.nextElementSibling.appendChild(inputNodelist(newInput));
+                saveTasks();
+                input.value = '';
             }
+        });
+        //for animation start and stop use class="ball"
+        const ani = input.previousElementSibling;
+        input.addEventListener("focus", () => {
+            const balls = ani.querySelectorAll("span");
+            balls.forEach((ball) => {
+                ball.classList.add("ball");
+            })
+        });
+        input.addEventListener("focusout", () => {
+            const balls = ani.querySelectorAll("span");
+            balls.forEach((ball) => {
+                ball.classList.remove("ball");
+            })
         });
     });
 });
 
 const textAreaEvent = ((textArea) => {
-        textArea.addEventListener("input", () => {
-            textArea.style.height = (textArea.scrollHeight) + "px"; //if input event changes text
+    textArea.addEventListener("input", () => {
+        textArea.style.height = (textArea.scrollHeight) + "px"; //if input event changes text
+    });
+});
+
+const textAreaAnimEvent = ((textArea) => {
+    //for animation start and stop use class="ball", separatly because in inputNodelist there are no parents available
+    const ani = textArea.parentNode.parentNode.parentNode.previousElementSibling.previousElementSibling;
+    textArea.addEventListener("focus", () => {            
+        const balls = ani.querySelectorAll("span");
+        balls.forEach((ball) => {
+            ball.classList.add("ball");
+        })
+    });
+    textArea.addEventListener("focusout", () => {
+        const balls = ani.querySelectorAll("span");
+        balls.forEach((ball) => {
+            ball.classList.remove("ball");
+        })
     });
 });
 
@@ -231,17 +268,7 @@ function getCalenderWeekDays() {
     let friday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() + 1);
     let saturday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() + 2);
     let sunday = new Date(thursdayDate.getFullYear(), thursdayDate.getMonth(), thursdayDate.getDate() + 3);
-    const dateArray = [monday, tuesday, wednesday, thursdayDate, friday, saturday, sunday];
-
-    /* let dateArray = new Array();  //alternative: let dateArray = [];
-    dateArray.push(monday);
-    dateArray.push(tuesday);
-    dateArray.push(wednesday);
-    dateArray.push(thursdayDate);
-    dateArray.push(friday);
-    dateArray.push(saturday);
-    dateArray.push(sunday); */
-    return dateArray;
+    return [monday, tuesday, wednesday, thursdayDate, friday, saturday, sunday];
 }
 
 function renderCalenderWeekDays(weekdays) {
@@ -249,7 +276,6 @@ function renderCalenderWeekDays(weekdays) {
     sections.forEach((section) => {
         section.remove();
     })
-
     weekdays.forEach((weekday) => {
         addSection(weekday);
     })
@@ -260,7 +286,14 @@ const addSection = ((date) => {
     let section = `
     <section class="dateelement" id="${date.toLocaleDateString()}">
         <form>
-            <h4>${date.toLocaleDateString('en-US', {weekday: 'long'})} ${date.toLocaleDateString()}</h4> 
+            <h4>${date.toLocaleDateString('en-US', {weekday: 'long'})} ${date.toLocaleDateString()}</h4>
+            <div class="ani">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <input type="text" class="addNewEntry" name="txtNewEntry" placeholder="! Enter confirms bullet point !"/>
             <ul></ul>  
         </form>
@@ -268,18 +301,15 @@ const addSection = ((date) => {
     document.getElementById("main").innerHTML += section;
 });
 
-
-// local Storage data structure
-/*
-    key => {
-            task1 = inhalt=text, highlighted=true, done=true
-            task2 = inhalt=text, highlighted=false, done=true
-    }
-    22.06.22 => {
-            task1 = inhalt=text, highlighted=true, done=true
-            task2 = inhalt=text, highlighted=false, done=true
-            task3 = inhalt=text, highlighted=false, done=true
-    }
+/* local Storage data structure
+    key => [
+            [content=text1, done=true, highlighted=true]
+            [content=text2, done=false, highlighted=false]
+    ]
+    22.06.22 => [
+            [content=text1, done=true, highlighted=true]
+            [content=text2, done=false, highlighted=false]
+    ]
 */
 function saveTasks() {
     const weekDays = getCalenderWeekDays(); // gets whole week
@@ -289,7 +319,7 @@ function saveTasks() {
     let saveValues;
     weekDays.forEach((weekDay) => {
         saveValues = [];
-        const key = weekDay.toLocaleDateString(); // gets only string of the date
+        const key = weekDay.toLocaleDateString();
         const section = document.getElementById(key);
         const textAreaContents = section.querySelectorAll(".datecontent");
         textAreaContents.forEach((textAreaContent) => {
@@ -310,10 +340,9 @@ function saveTasks() {
     });
 };
 
+//todo: simplify double code in functions (DRY), but better readable at the moment
 function loadTasks() {
-    const warning = document.getElementById("warning");
-    warning.innerText = "~" + JSON.stringify(localStorage).length + " Bytes used local storage memory"; //utf-16 format
-    warning.style.display = "block";
+    localStorageSize();
     const weekDays = getCalenderWeekDays(); // gets whole week
     weekDays.forEach((weekDay) => {
         const key = weekDay.toLocaleDateString();
@@ -328,6 +357,8 @@ function loadTasks() {
                 let linode = inputNodelist(values[i][0]);
                 ulnode.appendChild(linode);
                 let divnode = linode.querySelector("div");
+                let textarea = divnode.children[1];
+                textAreaAnimEvent(textarea);
                 if(values[i][1] === true) {
                     let done = divnode.children[0];
                     done.classList.remove(...done.classList);
@@ -342,12 +373,26 @@ function loadTasks() {
                     highlight.classList.remove(...highlight.classList);
                     highlight.classList.add("fa");
                     highlight.classList.add("fa-star");
-                    highlight.parentNode.parentNode.style.backgroundImage = "url('img/strike.svg')"; 
-                    highlight.parentNode.parentNode.style.backgroundRepeat = "no-repeat"; 
-                    highlight.parentNode.parentNode.style.backgroundPosition = "0% 10%"; 
-                    highlight.parentNode.parentNode.style.backgroundSize = "contain"; 
+                    highlight.parentNode.parentNode.style.backgroundImage = "url('img/strike.svg')";
+                    highlight.parentNode.parentNode.style.backgroundRepeat = "no-repeat";
+                    highlight.parentNode.parentNode.style.backgroundPosition = "0% 10%";
+                    highlight.parentNode.parentNode.style.backgroundSize = "contain";
                 }
             }
         }
     });
+    initDOMEvents();
+}
+
+function localStorageSize() {
+    const warning = document.getElementById("warning");
+    let size = JSON.stringify(localStorage).length;
+    const units = ['Bytes', 'KB', 'MB'];
+    let unitIndex = 0;
+    while(size >= 1024 && ++unitIndex) {
+        size = size/1024;
+    }
+    let sizeString = size.toFixed(unitIndex > 0 ? 2 : 0) + ' ' + units[unitIndex];
+    warning.innerText = "~" + sizeString + " used in local storage memory"; //utf-16 format
+    warning.style.display = "block";
 }
