@@ -146,22 +146,26 @@ main section.dateelement div.ani {float: right; width:20%; display: flex; flex-f
 
 .ball {display: inline-block; width: 10px; height: 10px; margin: 0px 0.1rem; border-radius: 5px;}
 
-.ball:nth-child(1) {animation: right 1s infinite ease-in-out;}
-.ball:nth-child(2) {animation: left 1.005s infinite ease-in-out;}
-.ball:nth-child(3) {animation: right 1.01s infinite ease-in-out;}
-.ball:nth-child(4) {animation: left 1.005s infinite ease-in-out;}
-.ball:nth-child(5) {animation: right 1s infinite ease-in-out;}
+/* 
+    animation-name: stretch;
+    animation-duration: 1.5s; 
+    animation-timing-function: ease-out; 
+    animation-delay: 0s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-fill-mode: none;
+    animation-play-state: running; 
+*/
+.ball:nth-child(1) {animation: bgcolors 2s ease-in 0s normal infinite both running;}
+.ball:nth-child(2) {animation: bgcolors 2s ease-in 0.2s normal infinite both running;}
+.ball:nth-child(3) {animation: bgcolors 2s ease-in 0.4s normal infinite both running;}
+.ball:nth-child(4) {animation: bgcolors 2s ease-in 0.6s normal infinite both running;}
+.ball:nth-child(5) {animation: bgcolors 2s ease-in 0.8s normal infinite both running;}
 
-@keyframes right {
-	0% {transform: translateY(-5px);background: #666;opacity: 0.5;}
-	50% {transform: translateY(5px);background: #030;opacity: 1;}
-	100% {transform: translateY(-5px);background: #666;opacity: 0.5;}
-}
-
-@keyframes left {
-    0% {transform: translateY(5px);background: #030;opacity: 1;}
-	50% {transform: translateY(-5px);background: #666;opacity: 0.5;}
-	100% {transform: translateY(5px);background: #030;opacity: 1;}
+@keyframes bgcolors {
+	0% {background: transparent; opacity: 0;}
+	50% {background: #030; opacity: 0.8;}
+	100% {background: transparent; opacity: 1;}
 }
 
 main section.dateelement form input {
